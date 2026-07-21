@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ripple Burst Button</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a12;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .btn-ripple {
+    position: relative;
+    padding: 14px 48px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background: #4f46e5;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    transition: background 0.2s;
+    user-select: none;
+  }
+
+  .btn-ripple:hover { background: #4338ca; }
+
+  .ripple-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    pointer-events: none;
+    animation: ripple-out 0.8s ease-out forwards;
+  }
+
+  .ripple-ring:nth-child(2) { animation-delay: 0.12s; opacity: 0.6; }
+  .ripple-ring:nth-child(3) { animation-delay: 0.24s; opacity: 0.35; }
+
+  @keyframes ripple-out {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Ripple Burst Button</p>
+  <button class="btn-ripple">Click Me</button>
+
+  <script>
+    const btn = document.querySelector('.btn-ripple');
+
+    btn.addEventListener('click', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const size = Math.max(rect.width, rect.height);
+
+      // Remove old rings
+      btn.querySelectorAll('.ripple-ring').forEach(r => r.remove());
+
+      for (let i = 0; i < 3; i++) {
+        const ring = document.createElement('span');
+        ring.className = 'ripple-ring';
+        ring.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x - size / 2}px;
+          top: ${y - size / 2}px;
+        `;
+        btn.appendChild(ring);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circular Split Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .circ-split {
+    width: 70px;
+    height: 70px;
+  }
+
+  .circ-split circle {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  .circ-split .track {
+    stroke: rgba(255,255,255,0.06);
+  }
+
+  .circ-split .arc1 {
+    stroke: #f97316;
+    stroke-dasharray: 60 220;
+    animation: arc-spin1 1.6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .circ-split .arc2 {
+    stroke: #a855f7;
+    stroke-dasharray: 40 240;
+    animation: arc-spin2 1.6s ease-in-out infinite 0.4s;
+    transform-origin: center;
+  }
+
+  .circ-split .arc3 {
+    stroke: #06b6d4;
+    stroke-dasharray: 20 260;
+    animation: arc-spin3 1.6s ease-in-out infinite 0.8s;
+    transform-origin: center;
+  }
+
+  @keyframes arc-spin1 {
+    0%   { transform: rotate(0deg);   stroke-dasharray: 10 270; }
+    50%  { transform: rotate(180deg); stroke-dasharray: 100 180; }
+    100% { transform: rotate(360deg); stroke-dasharray: 10 270; }
+  }
+  @keyframes arc-spin2 {
+    0%   { transform: rotate(120deg);  stroke-dasharray: 8 272; }
+    50%  { transform: rotate(300deg);  stroke-dasharray: 80 200; }
+    100% { transform: rotate(480deg);  stroke-dasharray: 8 272; }
+  }
+  @keyframes arc-spin3 {
+    0%   { transform: rotate(240deg);  stroke-dasharray: 6 274; }
+    50%  { transform: rotate(420deg);  stroke-dasharray: 60 220; }
+    100% { transform: rotate(600deg);  stroke-dasharray: 6 274; }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Circular Split Loader</p>
+  <svg class="circ-split" viewBox="0 0 70 70">
+    <circle class="track" cx="35" cy="35" r="28"/>
+    <circle class="arc1" cx="35" cy="35" r="28" transform="rotate(-90 35 35)"/>
+    <circle class="arc2" cx="35" cy="35" r="28" transform="rotate(-90 35 35)"/>
+    <circle class="arc3" cx="35" cy="35" r="28" transform="rotate(-90 35 35)"/>
+  </svg>
+</body>
+</html>

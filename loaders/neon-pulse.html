@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Pulse Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #050508;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .neon-pulse {
+    position: relative;
+    width: 24px;
+    height: 24px;
+  }
+
+  .neon-pulse .core {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: #00f0ff;
+    box-shadow: 0 0 12px #00f0ff;
+  }
+
+  .neon-pulse .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid #00f0ff;
+    animation: neon-expand 2s ease-out infinite;
+  }
+
+  .neon-pulse .ring:nth-child(2) { inset: 0; }
+  .neon-pulse .ring:nth-child(3) { inset: 0; animation-delay: 0.66s; }
+  .neon-pulse .ring:nth-child(4) { inset: 0; animation-delay: 1.33s; }
+
+  @keyframes neon-expand {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    100% { transform: scale(4.5); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Neon Pulse Loader</p>
+  <div class="neon-pulse">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="core"></div>
+  </div>
+</body>
+</html>

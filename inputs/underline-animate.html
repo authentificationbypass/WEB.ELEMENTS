@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underline Animate Input</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0f0f0f;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .underline-field {
+    position: relative;
+    width: 280px;
+  }
+
+  .underline-field label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 10px;
+    transition: color 0.3s;
+  }
+
+  .underline-field:focus-within label { color: #f97316; }
+
+  .underline-field input {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1.5px solid rgba(255,255,255,0.15);
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    padding: 8px 0;
+    caret-color: #f97316;
+  }
+
+  .underline-field .line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f97316, #eab308);
+    transform: translateX(-50%);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 1px;
+  }
+
+  .underline-field:focus-within .line { width: 100%; }
+</style>
+</head>
+<body>
+  <p class="label">Underline Animate Input</p>
+  <div class="underline-field">
+    <label for="u1">Username</label>
+    <input type="text" id="u1" placeholder="john.doe" autocomplete="off">
+    <div class="line"></div>
+  </div>
+  <div class="underline-field">
+    <label for="u2">Website</label>
+    <input type="url" id="u2" placeholder="https://..." autocomplete="off">
+    <div class="line"></div>
+  </div>
+</body>
+</html>

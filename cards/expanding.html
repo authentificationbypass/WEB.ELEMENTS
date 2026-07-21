@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expanding Card</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .card-expand {
+    width: 300px;
+    background: #1c1c24;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.4s;
+  }
+
+  .card-expand:hover {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .card-expand .header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .card-expand .icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f97316, #eab308);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .card-expand h3 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .card-expand .sub {
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+  }
+
+  .card-expand .arrow {
+    margin-left: auto;
+    color: rgba(255,255,255,0.3);
+    font-size: 20px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+
+  .card-expand.open .arrow { transform: rotate(180deg); }
+
+  .card-expand .body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-expand.open .body { max-height: 240px; }
+
+  .card-expand .body-inner {
+    padding: 0 24px 24px;
+  }
+
+  .card-expand .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin-bottom: 18px;
+  }
+
+  .card-expand p {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  .card-expand .stats-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .card-expand .stat {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .card-expand .stat .n {
+    display: block;
+    color: #f97316;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .card-expand .stat .t {
+    display: block;
+    color: rgba(255,255,255,0.35);
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Expanding Card</p>
+  <div class="card-expand" id="expandCard">
+    <div class="header">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div>
+        <h3>Energy Usage</h3>
+        <span class="sub">Updated just now</span>
+      </div>
+      <span class="arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </span>
+    </div>
+    <div class="body">
+      <div class="body-inner">
+        <div class="divider"></div>
+        <p>Panels generated 3.4 kWh today, covering most of the daytime load. Peak output around 1:20 PM.</p>
+        <div class="stats-row">
+          <div class="stat"><span class="n">3.4</span><span class="t">kWh Today</span></div>
+          <div class="stat"><span class="n">92%</span><span class="t">Offset</span></div>
+          <div class="stat"><span class="n">−$1.8</span><span class="t">Saved</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('expandCard').addEventListener('click', function() {
+      this.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

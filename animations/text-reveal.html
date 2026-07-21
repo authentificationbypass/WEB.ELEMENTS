@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Reveal Animation</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .hint {
+    color: rgba(255,255,255,0.25);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 16px;
+    border-radius: 20px;
+    transition: border-color 0.2s;
+  }
+  .hint:hover { border-color: rgba(255,255,255,0.3); }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .reveal-text {
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .reveal-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 4px;
+  }
+
+  .reveal-line .word-wrap {
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 0.25em;
+  }
+
+  .reveal-line .word {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Line 1 */
+  .reveal-line:nth-child(1) { font-size: 52px; font-weight: 900; color: #fff; }
+  .reveal-line:nth-child(2) { font-size: 52px; font-weight: 900; }
+  .reveal-line:nth-child(2) .word {
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .reveal-line:nth-child(3) { font-size: 16px; color: rgba(255,255,255,0.4); margin-top: 12px; }
+
+  .reveal-text.playing .word {
+    transform: translateY(0);
+  }
+
+  /* Stagger delays */
+  .reveal-line:nth-child(1) .word-wrap:nth-child(1) .word { transition-delay: 0s; }
+  .reveal-line:nth-child(1) .word-wrap:nth-child(2) .word { transition-delay: 0.06s; }
+  .reveal-line:nth-child(2) .word-wrap:nth-child(1) .word { transition-delay: 0.12s; }
+  .reveal-line:nth-child(2) .word-wrap:nth-child(2) .word { transition-delay: 0.18s; }
+  .reveal-line:nth-child(3) .word-wrap:nth-child(1) .word { transition-delay: 0.3s; }
+  .reveal-line:nth-child(3) .word-wrap:nth-child(2) .word { transition-delay: 0.36s; }
+  .reveal-line:nth-child(3) .word-wrap:nth-child(3) .word { transition-delay: 0.42s; }
+</style>
+</head>
+<body>
+  <div class="reveal-text" id="revealText">
+    <span class="reveal-line">
+      <span class="word-wrap"><span class="word">Good work</span></span>
+    </span>
+    <span class="reveal-line">
+      <span class="word-wrap"><span class="word">takes</span></span>
+      <span class="word-wrap"><span class="word">time.</span></span>
+    </span>
+    <span class="reveal-line">
+      <span class="word-wrap"><span class="word">Start</span></span>
+      <span class="word-wrap"><span class="word">anyway.</span></span>
+    </span>
+  </div>
+  <button class="hint" id="replayBtn">Replay →</button>
+
+  <script>
+    const text = document.getElementById('revealText');
+    const btn  = document.getElementById('replayBtn');
+
+    function play() {
+      text.classList.remove('playing');
+      requestAnimationFrame(() => requestAnimationFrame(() => text.classList.add('playing')));
+    }
+
+    btn.addEventListener('click', play);
+    play();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Grid Pattern</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-color: #070710;
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: grid-drift 20s linear infinite;
+  }
+
+  /* Fade edges */
+  .grid-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, #070710 90%);
+  }
+
+  @keyframes grid-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 60px 60px; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.5));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .content p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 6px 16px;
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 20px;
+    font-size: 12px;
+    color: #a5b4fc;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="content">
+    <h1>Animated Grid</h1>
+    <p>Pure CSS background pattern</p>
+    <span class="badge">No images · CSS only</span>
+  </div>
+</body>
+</html>

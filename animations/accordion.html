@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smooth Accordion</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e14;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .accordion {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .acc-item {
+    background: #14141e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .acc-item.open { border-color: rgba(99,102,241,0.3); }
+
+  .acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .acc-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .acc-item.open .acc-icon {
+    transform: rotate(180deg);
+    background: rgba(99,102,241,0.2);
+    color: #a5b4fc;
+  }
+
+  .acc-body {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .acc-body-inner {
+    padding: 0 20px 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Smooth Accordion</p>
+  <div class="accordion" id="accordion">
+    <div class="acc-item">
+      <button class="acc-trigger">Is there a free plan?<span class="acc-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="acc-body"><div class="acc-body-inner">Yes, our free plan includes up to 3 projects, 5 team members, and 10GB of storage. No credit card required to get started.</div></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger">How does billing work?<span class="acc-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="acc-body"><div class="acc-body-inner">You're billed monthly or annually. Annual billing saves 20%. You can upgrade, downgrade, or cancel at any time from your account settings.</div></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger">Can I export my data?<span class="acc-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="acc-body"><div class="acc-body-inner">Absolutely. You can export all your data in JSON, CSV, or PDF formats at any time. We believe your data belongs to you.</div></div>
+    </div>
+    <div class="acc-item">
+      <button class="acc-trigger">What integrations do you support?<span class="acc-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="acc-body"><div class="acc-body-inner">We integrate with Slack, GitHub, Figma, Zapier, and 40+ other tools. Our public API lets you build custom integrations too.</div></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('accordion').addEventListener('click', (e) => {
+      const trigger = e.target.closest('.acc-trigger');
+      if (!trigger) return;
+
+      const item = trigger.closest('.acc-item');
+      const body = item.querySelector('.acc-body');
+      const inner = item.querySelector('.acc-body-inner');
+      const isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.acc-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.acc-body').style.height = '0';
+      });
+
+      // Open clicked
+      if (!isOpen) {
+        item.classList.add('open');
+        body.style.height = inner.scrollHeight + 'px';
+      }
+    });
+  </script>
+</body>
+</html>
+

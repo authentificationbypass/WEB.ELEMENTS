@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Lines Pattern</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #06060f;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  .wave-bg {
+    position: fixed;
+    inset: 0;
+  }
+
+  .wave-bg svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .content p { font-size: 15px; color: rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+  <div class="wave-bg">
+    <svg id="waveSvg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .wave-path {
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+          }
+        </style>
+      </defs>
+      <g id="waveGroup"></g>
+    </svg>
+  </div>
+  <div class="content">
+    <h1>Wave Lines</h1>
+    <p>Animated SVG sine wave pattern</p>
+  </div>
+
+  <script>
+    const group = document.getElementById('waveGroup');
+    const W = 1200, H = 800;
+    const LINES = 18;
+    const AMPLITUDE = 28;
+    const paths = [];
+
+    const colors = [
+      'rgba(99,102,241,0.4)', 'rgba(139,92,246,0.35)',
+      'rgba(236,72,153,0.3)', 'rgba(6,182,212,0.35)'
+    ];
+
+    for (let i = 0; i < LINES; i++) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.classList.add('wave-path');
+      path.style.stroke = colors[i % colors.length];
+      path.style.opacity = (0.3 + (i / LINES) * 0.7).toFixed(2);
+      group.appendChild(path);
+      paths.push({ el: path, offset: (i / LINES) * Math.PI * 2, speed: 0.4 + (i % 4) * 0.15 });
+    }
+
+    let t = 0;
+    function draw() {
+      const spacing = H / (LINES + 1);
+      paths.forEach((p, i) => {
+        const y0 = spacing * (i + 1);
+        const pts = [];
+        for (let x = 0; x <= W; x += 8) {
+          const y = y0 + Math.sin((x / 180) + t * p.speed + p.offset) * AMPLITUDE;
+          pts.push(`${x},${y.toFixed(1)}`);
+        }
+        p.el.setAttribute('d', 'M' + pts.join('L'));
+      });
+      t += 0.02;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

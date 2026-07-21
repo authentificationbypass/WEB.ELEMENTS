@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Bars Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #080810;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .wave-bars {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 50px;
+  }
+
+  .wave-bars .bar {
+    width: 5px;
+    height: 100%;
+    border-radius: 3px;
+    animation: wave-eq 1s ease-in-out infinite;
+    transform-origin: bottom;
+  }
+
+  .wave-bars .bar:nth-child(1)  { background: #00c8ff; animation-delay: 0s; }
+  .wave-bars .bar:nth-child(2)  { background: #3dd6f5; animation-delay: 0.1s; }
+  .wave-bars .bar:nth-child(3)  { background: #60e0e8; animation-delay: 0.2s; }
+  .wave-bars .bar:nth-child(4)  { background: #7ce8d0; animation-delay: 0.3s; }
+  .wave-bars .bar:nth-child(5)  { background: #90eeae; animation-delay: 0.4s; }
+  .wave-bars .bar:nth-child(6)  { background: #90eeae; animation-delay: 0.3s; }
+  .wave-bars .bar:nth-child(7)  { background: #7ce8d0; animation-delay: 0.2s; }
+  .wave-bars .bar:nth-child(8)  { background: #60e0e8; animation-delay: 0.1s; }
+  .wave-bars .bar:nth-child(9)  { background: #3dd6f5; animation-delay: 0s; }
+
+  @keyframes wave-eq {
+    0%, 100% { transform: scaleY(0.2); }
+    50%       { transform: scaleY(1); }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Wave Bars Loader</p>
+  <div class="wave-bars">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </div>
+</body>
+</html>

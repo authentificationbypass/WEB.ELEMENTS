@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack Card</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e14;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 60px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .card-stack {
+    position: relative;
+    width: 280px;
+    height: 200px;
+    cursor: pointer;
+  }
+
+  .card-stack .card {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 24px;
+    color: #fff;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .card-stack .card:nth-child(3) {
+    background: #1a1a30;
+    border: 1px solid rgba(255,255,255,0.06);
+    transform: rotate(6deg) translateY(8px);
+    z-index: 1;
+  }
+  .card-stack .card:nth-child(2) {
+    background: #222238;
+    border: 1px solid rgba(255,255,255,0.08);
+    transform: rotate(3deg) translateY(4px);
+    z-index: 2;
+  }
+  .card-stack .card:nth-child(1) {
+    background: linear-gradient(135deg, #312e81, #1e1b4b);
+    border: 1px solid rgba(140,120,255,0.2);
+    z-index: 3;
+  }
+
+  .card-stack:hover .card:nth-child(3) { transform: rotate(-8deg) translate(-24px, 16px); }
+  .card-stack:hover .card:nth-child(2) { transform: rotate(0deg) translate(0, 0); }
+  .card-stack:hover .card:nth-child(1) { transform: rotate(5deg) translate(20px, -12px); }
+
+  .card-stack .card:nth-child(1) h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .card-stack .card:nth-child(1) p { font-size: 12px; opacity: 0.5; line-height: 1.5; }
+  .card-stack .card:nth-child(1) .badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 4px 12px;
+    background: rgba(140,120,255,0.2);
+    border-radius: 20px;
+    font-size: 11px;
+    color: #a5b4fc;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Stack Card</p>
+  <div class="card-stack">
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card">
+      <h3>Photography</h3>
+      <p>Three rolls from last month, still waiting to be developed.</p>
+      <span class="badge">3 layers &middot; Hover me</span>
+    </div>
+  </div>
+</body>
+</html>

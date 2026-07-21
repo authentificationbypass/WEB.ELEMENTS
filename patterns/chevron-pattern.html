@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chevron Pattern</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .chevron-bg {
+    position: fixed;
+    inset: 0;
+    background-color: #090910;
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(99,102,241,0.07) 10px,
+      rgba(99,102,241,0.07) 11px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(99,102,241,0.07) 10px,
+      rgba(99,102,241,0.07) 11px
+    );
+    background-size: 22px 22px;
+    animation: chevron-drift 14s linear infinite;
+  }
+
+  .chevron-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, #090910 85%);
+  }
+
+  @keyframes chevron-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 44px 44px; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .content p { font-size: 15px; color: rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+  <div class="chevron-bg"></div>
+  <div class="content">
+    <h1>Chevron Pattern</h1>
+    <p>CSS repeating-linear-gradient</p>
+  </div>
+</body>
+</html>

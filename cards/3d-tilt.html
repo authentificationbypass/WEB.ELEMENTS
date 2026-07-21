@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Tilt Card</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0f0f14;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .card-tilt-scene {
+    perspective: 900px;
+    width: 300px;
+  }
+
+  .card-tilt {
+    width: 300px;
+    height: 200px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 28px;
+    color: #fff;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-tilt::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.08) 0%, transparent 65%);
+    border-radius: inherit;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+
+  .card-tilt:hover::before { opacity: 1; }
+
+  .card-tilt .chip {
+    width: 42px;
+    height: 30px;
+    background: linear-gradient(135deg, #ffd700, #b8860b);
+    border-radius: 5px;
+    margin-bottom: 28px;
+    transform: translateZ(20px);
+  }
+
+  .card-tilt .number {
+    font-size: 17px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    transform: translateZ(15px);
+    opacity: 0.85;
+  }
+
+  .card-tilt .info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 1px;
+    opacity: 0.5;
+    transform: translateZ(10px);
+  }
+</style>
+</head>
+<body>
+  <p class="label">3D Tilt Card</p>
+  <div class="card-tilt-scene">
+    <div class="card-tilt" id="tiltCard">
+      <div class="chip"></div>
+      <div class="number">4512 •••• •••• 7823</div>
+      <div class="info">
+        <span>CARD HOLDER</span>
+        <span>VALID THRU</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('tiltCard');
+    const MAX = 18;
+
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      const rotX = (y - 0.5) * -MAX * 2;
+      const rotY = (x - 0.5) * MAX * 2;
+      card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04)`;
+      card.style.setProperty('--mx', `${x * 100}%`);
+      card.style.setProperty('--my', `${y * 100}%`);
+      card.style.boxShadow = `${-rotY * 1.5}px ${rotX * 1.5}px 40px rgba(0,0,0,0.6)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+  </script>
+</body>
+</html>

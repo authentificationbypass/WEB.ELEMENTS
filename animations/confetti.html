@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confetti Animation</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .confetti-btn {
+    position: relative;
+    z-index: 1;
+    padding: 16px 48px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ec4899);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.3s;
+    box-shadow: 0 8px 30px rgba(249,115,22,0.35);
+  }
+
+  .confetti-btn:hover { transform: scale(1.04); box-shadow: 0 12px 40px rgba(249,115,22,0.5); }
+  .confetti-btn:active { transform: scale(0.97); }
+</style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+  <p class="label">Confetti Animation</p>
+  <button class="confetti-btn" id="confettiBtn">Celebrate</button>
+
+  <script>
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+    const COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f1c','#ff006e','#00b4d8'];
+    let pieces = [];
+
+    class Piece {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 14;
+        this.vy = Math.random() * -14 - 4;
+        this.w = Math.random() * 10 + 5;
+        this.h = Math.random() * 6 + 3;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 8;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        this.gravity = 0.35;
+        this.drag = 0.97;
+        this.life = 1;
+        this.decay = 0.012 + Math.random() * 0.008;
+        this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+      }
+
+      update() {
+        this.vy += this.gravity;
+        this.vx *= this.drag;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotSpeed;
+        this.life -= this.decay;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.life);
+        ctx.fillStyle = this.color;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        if (this.shape === 'rect') {
+          ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, this.w / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = pieces.length - 1; i >= 0; i--) {
+        pieces[i].update();
+        pieces[i].draw();
+        if (pieces[i].life <= 0) pieces.splice(i, 1);
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    document.getElementById('confettiBtn').addEventListener('click', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      for (let i = 0; i < 120; i++) {
+        pieces.push(new Piece(x, y));
+      }
+    });
+  </script>
+</body>
+</html>

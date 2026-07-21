@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counter Animation</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 160px);
+    gap: 16px;
+  }
+
+  .stat-box {
+    background: #14141e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .stat-box .num {
+    display: block;
+    font-size: 38px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .replay {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .replay:hover { border-color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+  <p class="label">Counter Animation</p>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <span class="num counter" data-target="12480" data-suffix="+" data-duration="2000">0</span>
+      <span class="desc">Users</span>
+    </div>
+    <div class="stat-box">
+      <span class="num counter" data-target="99" data-suffix="%" data-duration="1400">0</span>
+      <span class="desc">Uptime</span>
+    </div>
+    <div class="stat-box">
+      <span class="num counter" data-target="4" data-prefix="$" data-suffix="M" data-duration="1800">0</span>
+      <span class="desc">Revenue</span>
+    </div>
+  </div>
+  <button class="replay" id="replayBtn">Replay</button>
+
+  <script>
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function animateCounter(el) {
+      const target   = parseInt(el.dataset.target);
+      const duration = parseInt(el.dataset.duration) || 2000;
+      const prefix   = el.dataset.prefix || '';
+      const suffix   = el.dataset.suffix || '';
+      const start    = performance.now();
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const value = Math.round(easeOut(progress) * target);
+        el.textContent = prefix + value.toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    function run() {
+      document.querySelectorAll('.counter').forEach(el => {
+        el.textContent = (el.dataset.prefix || '') + '0' + (el.dataset.suffix || '');
+        setTimeout(() => animateCounter(el), 100);
+      });
+    }
+
+    document.getElementById('replayBtn').addEventListener('click', run);
+    run();
+  </script>
+</body>
+</html>

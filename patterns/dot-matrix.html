@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dot Matrix Pattern</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .dot-bg {
+    position: fixed;
+    inset: 0;
+    background-color: #08080f;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Fade edges via overlay */
+  .dot-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, #08080f 80%);
+  }
+
+  /* Animated highlight dot */
+  .dot-bg::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: dot-glow 6s ease-in-out infinite;
+  }
+
+  @keyframes dot-glow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50%       { transform: translate(-50%, -50%) scale(1.4); opacity: 0.6; }
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .content p { font-size: 15px; color: rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+  <div class="dot-bg"></div>
+  <div class="content">
+    <h1>Dot Matrix</h1>
+    <p>CSS radial-gradient repeat pattern</p>
+  </div>
+</body>
+</html>

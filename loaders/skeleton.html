@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skeleton Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0f0f14;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .skeleton-card {
+    width: 300px;
+    background: #1a1a24;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .skeleton-card .sk-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .sk {
+    background: linear-gradient(90deg, #252535 25%, #30304a 50%, #252535 75%);
+    background-size: 300% 100%;
+    border-radius: 6px;
+    animation: shimmer 1.8s infinite;
+  }
+
+  .sk-avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; }
+  .sk-name   { height: 14px; width: 120px; }
+  .sk-sub    { height: 11px; width: 80px; }
+  .sk-line-full  { height: 12px; width: 100%; }
+  .sk-line-3qtr  { height: 12px; width: 75%; }
+  .sk-line-half  { height: 12px; width: 50%; }
+  .sk-img    { height: 140px; width: 100%; border-radius: 10px; }
+
+  .sk-name-col { display: flex; flex-direction: column; gap: 6px; }
+
+  @keyframes shimmer {
+    to { background-position: -300% 0; }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Skeleton Loader</p>
+  <div class="skeleton-card">
+    <div class="sk-header">
+      <div class="sk sk-avatar"></div>
+      <div class="sk-name-col">
+        <div class="sk sk-name"></div>
+        <div class="sk sk-sub"></div>
+      </div>
+    </div>
+    <div class="sk sk-img"></div>
+    <div class="sk sk-line-full"></div>
+    <div class="sk sk-line-3qtr"></div>
+    <div class="sk sk-line-half"></div>
+  </div>
+</body>
+</html>

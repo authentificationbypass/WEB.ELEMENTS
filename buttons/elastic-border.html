@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elastic Border Button</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0c0c0c;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .btn-elastic-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+  }
+
+  .btn-elastic-wrap svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .btn-elastic-wrap svg rect {
+    fill: none;
+    stroke: #f0f0f0;
+    stroke-width: 1.5;
+    rx: 6;
+    ry: 6;
+  }
+
+  .btn-elastic {
+    position: relative;
+    padding: 14px 48px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #f0f0f0;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.2s;
+    display: block;
+  }
+
+  .btn-elastic:hover { color: #fff; }
+</style>
+</head>
+<body>
+  <p class="label">Elastic Border Button</p>
+  <div class="btn-elastic-wrap" id="elasticWrap">
+    <button class="btn-elastic">Connect</button>
+    <svg><rect id="elasticRect"/></svg>
+  </div>
+
+  <script>
+    const wrap = document.getElementById('elasticWrap');
+    const rect = document.getElementById('elasticRect');
+
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+    let inside = false;
+    const STIFFNESS = 0.14;
+    const BASE_EXPAND = 6;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function loop() {
+      currentX = lerp(currentX, inside ? targetX : 0, STIFFNESS);
+      currentY = lerp(currentY, inside ? targetY : 0, STIFFNESS);
+
+      const bx = BASE_EXPAND + Math.abs(currentX) * 0.3;
+      const by = BASE_EXPAND + Math.abs(currentY) * 0.3;
+      const w = wrap.offsetWidth + bx * 2;
+      const h = wrap.offsetHeight + by * 2;
+
+      rect.setAttribute('x', -bx + currentX * 0.5);
+      rect.setAttribute('y', -by + currentY * 0.5);
+      rect.setAttribute('width', w);
+      rect.setAttribute('height', h);
+      rect.setAttribute('rx', 8);
+
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    wrap.addEventListener('mousemove', (e) => {
+      const r = wrap.getBoundingClientRect();
+      targetX = (e.clientX - (r.left + r.width / 2)) * 0.5;
+      targetY = (e.clientY - (r.top + r.height / 2)) * 0.5;
+    });
+    wrap.addEventListener('mouseenter', () => inside = true);
+    wrap.addEventListener('mouseleave', () => { inside = false; targetX = 0; targetY = 0; });
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Pattern</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    background: #010108;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .aurora-wrap {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0;
+    animation: aurora-fade 10s ease-in-out infinite;
+  }
+
+  .aurora-1 {
+    width: 800px; height: 300px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,150,0.35), transparent);
+    top: 15%; left: -10%;
+    animation-delay: 0s;
+    animation-duration: 12s;
+  }
+  .aurora-2 {
+    width: 700px; height: 250px;
+    background: linear-gradient(90deg, transparent, rgba(0,180,255,0.3), transparent);
+    top: 25%; right: -5%;
+    animation-delay: 2s;
+    animation-duration: 10s;
+  }
+  .aurora-3 {
+    width: 600px; height: 200px;
+    background: linear-gradient(90deg, transparent, rgba(120,0,255,0.25), transparent);
+    top: 10%; left: 20%;
+    animation-delay: 4s;
+    animation-duration: 14s;
+  }
+  .aurora-4 {
+    width: 750px; height: 200px;
+    background: linear-gradient(90deg, transparent, rgba(0,255,200,0.2), transparent);
+    top: 35%; left: 5%;
+    animation-delay: 6s;
+    animation-duration: 11s;
+  }
+  .aurora-5 {
+    width: 500px; height: 180px;
+    background: linear-gradient(90deg, transparent, rgba(255,100,200,0.2), transparent);
+    top: 5%; right: 20%;
+    animation-delay: 3s;
+    animation-duration: 13s;
+  }
+
+  @keyframes aurora-fade {
+    0%, 100% { opacity: 0; transform: translateY(0px) scaleX(1); }
+    30%       { opacity: 1; transform: translateY(-20px) scaleX(1.05); }
+    60%       { opacity: 0.6; transform: translateY(10px) scaleX(0.95); }
+  }
+
+  /* Star field */
+  .stars {
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 100%, transparent),
+      radial-gradient(1px 1px at 85% 5%, rgba(255,255,255,0.5) 100%, transparent),
+      radial-gradient(1.5px 1.5px at 30% 40%, rgba(255,255,255,0.7) 100%, transparent),
+      radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.4) 100%, transparent),
+      radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.5) 100%, transparent),
+      radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.3) 100%, transparent),
+      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.4) 100%, transparent),
+      radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.3) 100%, transparent),
+      radial-gradient(1px 1px at 62% 8%, rgba(255,255,255,0.6) 100%, transparent),
+      radial-gradient(1.5px 1.5px at 5% 50%, rgba(255,255,255,0.5) 100%, transparent);
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 60px rgba(0,255,150,0.4);
+  }
+
+  .content p { font-size: 15px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+  <div class="aurora-wrap">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="aurora aurora-4"></div>
+    <div class="aurora aurora-5"></div>
+  </div>
+  <div class="stars"></div>
+  <div class="content">
+    <h1>Aurora Borealis</h1>
+    <p>Pure CSS Northern Lights animation</p>
+  </div>
+</body>
+</html>

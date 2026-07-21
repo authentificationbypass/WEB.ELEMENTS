@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Split Text Button</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .btn-split {
+    position: relative;
+    padding: 14px 48px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: #fff;
+    color: #111;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+  }
+
+  .btn-split .text-top,
+  .btn-split .text-bottom {
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+
+  .btn-split .text-bottom {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #111;
+    transform: translateY(100%);
+  }
+
+  .btn-split:hover .text-top {
+    transform: translateY(-110%);
+  }
+
+  .btn-split:hover .text-bottom {
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+  <p class="label">Split Text Button</p>
+  <button class="btn-split">
+    <span class="text-top">Explore</span>
+    <span class="text-bottom">Let's Go →</span>
+  </button>
+</body>
+</html>

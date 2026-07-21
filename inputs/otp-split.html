@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Split Input</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e14;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .otp-wrap {
+    text-align: center;
+  }
+
+  .otp-wrap p {
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .otp-boxes {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .otp-boxes input {
+    width: 52px;
+    height: 60px;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    background: #1a1a26;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+    caret-color: transparent;
+  }
+
+  .otp-boxes input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    transform: translateY(-2px);
+  }
+
+  .otp-boxes input.filled {
+    border-color: rgba(99,102,241,0.4);
+    color: #a5b4fc;
+  }
+</style>
+</head>
+<body>
+  <p class="label">OTP Split Input</p>
+  <div class="otp-wrap">
+    <p>Enter the 6-digit code sent to your email</p>
+    <div class="otp-boxes" id="otpBoxes">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+    </div>
+  </div>
+
+  <script>
+    const boxes = document.querySelectorAll('#otpBoxes input');
+
+    boxes.forEach((box, i) => {
+      box.addEventListener('input', () => {
+        box.value = box.value.replace(/\D/g, '').slice(-1);
+        box.classList.toggle('filled', box.value !== '');
+        if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
+      });
+
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !box.value && i > 0) {
+          boxes[i - 1].focus();
+          boxes[i - 1].value = '';
+          boxes[i - 1].classList.remove('filled');
+        }
+      });
+
+      box.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+        [...text].forEach((ch, j) => {
+          if (boxes[j]) { boxes[j].value = ch; boxes[j].classList.add('filled'); }
+        });
+        if (boxes[text.length - 1]) boxes[text.length - 1].focus();
+      });
+    });
+
+    boxes[0].focus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Particle Explosion Button</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #080810;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+    overflow: hidden;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .btn-particle {
+    padding: 15px 50px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.15s, box-shadow 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-particle:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+  }
+
+  .btn-particle:active { transform: scale(0.97); }
+
+  canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Particle Explosion Button</p>
+  <button class="btn-particle" id="particleBtn">Ignite</button>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#c77dff','#ff9f1c'];
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        this.vx = (Math.random() - 0.5) * 12;
+        this.vy = (Math.random() - 0.5) * 12 - 4;
+        this.radius = Math.random() * 5 + 2;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        this.life = 1;
+        this.decay = Math.random() * 0.02 + 0.012;
+        this.gravity = 0.25;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += this.gravity;
+        this.vx *= 0.98;
+        this.life -= this.decay;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.life);
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    document.getElementById('particleBtn').addEventListener('click', (e) => {
+      for (let i = 0; i < 80; i++) {
+        particles.push(new Particle(e.clientX, e.clientY));
+      }
+    });
+  </script>
+</body>
+</html>

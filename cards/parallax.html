@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallax Card</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #14141e;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 48px;
+  }
+
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .card-parallax {
+    width: 300px;
+    height: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: none;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  }
+
+  .card-parallax .bg {
+    position: absolute;
+    inset: -20px;
+    background:
+      radial-gradient(ellipse at 30% 20%, #1a0a3e 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, #0a2a3e 0%, transparent 60%),
+      linear-gradient(160deg, #0d0d1a, #0a1a2e);
+    transition: transform 0.1s ease;
+    will-change: transform;
+  }
+
+  .card-parallax .stars {
+    position: absolute;
+    inset: -20px;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, #fff 100%, transparent),
+      radial-gradient(1px 1px at 80% 10%, #fff 100%, transparent),
+      radial-gradient(1.5px 1.5px at 50% 60%, rgba(255,255,255,0.8) 100%, transparent),
+      radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.6) 100%, transparent),
+      radial-gradient(1px 1px at 65% 45%, rgba(255,255,255,0.7) 100%, transparent),
+      radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.5) 100%, transparent),
+      radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,0.4) 100%, transparent);
+    transition: transform 0.15s ease;
+    will-change: transform;
+  }
+
+  .card-parallax .planet {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #7c3aed, #1e0a4e);
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.5), inset -15px -15px 30px rgba(0,0,0,0.6);
+    top: 60px;
+    right: 40px;
+    transition: transform 0.12s ease;
+    will-change: transform;
+  }
+
+  .card-parallax .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 60%, transparent);
+    color: #fff;
+    transition: transform 0.08s ease;
+    will-change: transform;
+  }
+
+  .card-parallax h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .card-parallax p { font-size: 12px; opacity: 0.55; line-height: 1.5; }
+</style>
+</head>
+<body>
+  <p class="label">Parallax Card</p>
+  <div class="card-parallax" id="parallaxCard">
+    <div class="bg" id="paraBg"></div>
+    <div class="stars" id="paraStars"></div>
+    <div class="planet" id="paraPlanet"></div>
+    <div class="content" id="paraContent">
+      <h3>Kepler-442b</h3>
+      <p>A potentially habitable exoplanet 1,194 light-years away in the constellation Lyra.</p>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('parallaxCard');
+    const layers = [
+      { el: document.getElementById('paraBg'), depth: 0.02 },
+      { el: document.getElementById('paraStars'), depth: 0.035 },
+      { el: document.getElementById('paraPlanet'), depth: 0.06 },
+      { el: document.getElementById('paraContent'), depth: 0.025 },
+    ];
+
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      layers.forEach(({ el, depth }) => {
+        el.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      layers.forEach(({ el }) => el.style.transform = '');
+    });
+  </script>
+</body>
+</html>

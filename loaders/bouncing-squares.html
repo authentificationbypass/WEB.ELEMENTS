@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bouncing Squares Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    gap: 40px;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  .sq-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 18px);
+    grid-template-rows: repeat(3, 18px);
+    gap: 5px;
+  }
+
+  .sq-grid .sq {
+    border-radius: 3px;
+    background: #6366f1;
+    animation: sq-bounce 1.2s ease-in-out infinite;
+  }
+
+  /* stagger by position */
+  .sq-grid .sq:nth-child(1)  { animation-delay: 0s;    }
+  .sq-grid .sq:nth-child(2)  { animation-delay: 0.1s;  }
+  .sq-grid .sq:nth-child(3)  { animation-delay: 0.2s;  }
+  .sq-grid .sq:nth-child(4)  { animation-delay: 0.1s;  }
+  .sq-grid .sq:nth-child(5)  { animation-delay: 0.2s;  }
+  .sq-grid .sq:nth-child(6)  { animation-delay: 0.3s;  }
+  .sq-grid .sq:nth-child(7)  { animation-delay: 0.2s;  }
+  .sq-grid .sq:nth-child(8)  { animation-delay: 0.3s;  }
+  .sq-grid .sq:nth-child(9)  { animation-delay: 0.4s;  }
+
+  @keyframes sq-bounce {
+    0%, 100% { transform: scale(1);    opacity: 1;    background: #6366f1; }
+    50%       { transform: scale(0.4); opacity: 0.25; background: #a855f7; }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Bouncing Squares Loader</p>
+  <div class="sq-grid">
+    <span class="sq"></span><span class="sq"></span><span class="sq"></span>
+    <span class="sq"></span><span class="sq"></span><span class="sq"></span>
+    <span class="sq"></span><span class="sq"></span><span class="sq"></span>
+  </div>
+</body>
+</html>

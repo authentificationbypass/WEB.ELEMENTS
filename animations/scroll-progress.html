@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scroll Progress Animation</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a10;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #fff;
+  }
+
+  /* ── COMPONENT ──────────────────────────────── */
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #6366f1, #ec4899, #f97316);
+    z-index: 1000;
+    transition: width 0.05s linear;
+    box-shadow: 0 0 8px rgba(99,102,241,0.6);
+  }
+
+  #progress-pct {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    z-index: 1001;
+  }
+
+  .content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 80px 24px 200px;
+  }
+
+  .content h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .content .section {
+    margin-bottom: 60px;
+  }
+
+  .content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .content p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .tip {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 6px;
+    font-size: 12px;
+    color: rgba(165,180,252,0.8);
+    letter-spacing: 1px;
+    margin-bottom: 60px;
+  }
+</style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <span id="progress-pct">0%</span>
+
+  <div class="content">
+    <span class="tip">↕ Scroll to see the progress bar</span>
+    <h1>Scroll Progress Bar</h1>
+
+    <div class="section">
+      <h2>How it works</h2>
+      <p>A thin gradient bar at the very top of the viewport expands from left to right as the user scrolls down the page. The percentage reflects how far through the document they've scrolled.</p>
+      <p>The bar uses a smooth CSS transition for a fluid feel even during fast scrolls, and a glowing box-shadow gives it a premium look without being intrusive.</p>
+    </div>
+
+    <div class="section">
+      <h2>Implementation</h2>
+      <p>Only a single <code>scroll</code> event listener is needed. We compute <code>scrolled / (scrollHeight - clientHeight)</code> and set it as the <code>width</code> percentage. No libraries required.</p>
+      <p>Debouncing is not needed here — the <code>width</code> transition on the element absorbs any jitter naturally.</p>
+    </div>
+
+    <div class="section">
+      <h2>Customization</h2>
+      <p>Change the gradient colors, height, or position to match your brand. You can also replace the width animation with a <code>scaleX</code> transform for GPU compositing, which is more performant on mobile devices.</p>
+      <p>Adding a background on the bar container (full-width, semi-transparent) gives it a track effect. The percentage label can be toggled on/off or positioned differently.</p>
+    </div>
+
+    <div class="section">
+      <h2>Accessibility</h2>
+      <p>Add <code>role="progressbar"</code> and <code>aria-valuenow</code> to the bar element and update it dynamically to ensure screen readers can announce the scroll position when needed.</p>
+    </div>
+  </div>
+
+  <script>
+    const bar = document.getElementById('progress-bar');
+    const pct = document.getElementById('progress-pct');
+
+    window.addEventListener('scroll', () => {
+      const scrolled = document.documentElement.scrollTop;
+      const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = total > 0 ? (scrolled / total) * 100 : 0;
+      bar.style.width = progress.toFixed(1) + '%';
+      pct.textContent = Math.round(progress) + '%';
+    });
+  </script>
+</body>
+</html>
