@@ -6,6 +6,7 @@
 <title>Skeleton Loader</title>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     min-height: 100vh;
     display: flex;
@@ -14,52 +15,147 @@
     justify-content: center;
     background: #0f0f14;
     font-family: 'Segoe UI', system-ui, sans-serif;
-    gap: 40px;
+    gap: 32px;
+    padding: 40px 16px;
   }
-  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
 
-  /* ── COMPONENT ──────────────────────────────── */
+  .label {
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  /* ── SHIMMER BASE ────────────────────────────── */
+  .sk {
+    position: relative;
+    overflow: hidden;
+    background: #1e1e2e;
+    border-radius: 6px;
+  }
+
+  .sk::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(120, 120, 180, 0.12) 40%,
+      rgba(160, 160, 220, 0.22) 50%,
+      rgba(120, 120, 180, 0.12) 60%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* ── CARD SKELETON ───────────────────────────── */
   .skeleton-card {
-    width: 300px;
-    background: #1a1a24;
+    width: 320px;
+    background: #13131c;
     border-radius: 16px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+    border: 1px solid #ffffff08;
   }
 
-  .skeleton-card .sk-header {
+  .sk-header {
     display: flex;
     gap: 12px;
     align-items: center;
-    margin-bottom: 4px;
   }
 
-  .sk {
-    background: linear-gradient(90deg, #252535 25%, #30304a 50%, #252535 75%);
-    background-size: 300% 100%;
-    border-radius: 6px;
-    animation: shimmer 1.8s infinite;
+  .sk-name-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
   }
 
-  .sk-avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; }
-  .sk-name   { height: 14px; width: 120px; }
-  .sk-sub    { height: 11px; width: 80px; }
-  .sk-line-full  { height: 12px; width: 100%; }
-  .sk-line-3qtr  { height: 12px; width: 75%; }
-  .sk-line-half  { height: 12px; width: 50%; }
-  .sk-img    { height: 140px; width: 100%; border-radius: 10px; }
+  .sk-avatar     { width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0; }
+  .sk-name       { height: 13px; width: 55%; }
+  .sk-sub        { height: 10px; width: 35%; }
+  .sk-img        { height: 148px; width: 100%; border-radius: 10px; }
+  .sk-line-full  { height: 11px; width: 100%; }
+  .sk-line-3qtr  { height: 11px; width: 78%; }
+  .sk-line-half  { height: 11px; width: 52%; }
+  .sk-tag        { height: 22px; border-radius: 20px; }
 
-  .sk-name-col { display: flex; flex-direction: column; gap: 6px; }
+  .sk-divider {
+    height: 1px;
+    background: #ffffff06;
+    margin: 2px 0;
+  }
 
-  @keyframes shimmer {
-    to { background-position: -300% 0; }
+  .sk-tags {
+    display: flex;
+    gap: 8px;
+  }
+
+  .sk-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 2px;
+  }
+
+  .sk-btn {
+    height: 32px;
+    flex: 1;
+    border-radius: 8px;
+  }
+
+  /* ── LIST SKELETON ───────────────────────────── */
+  .skeleton-list {
+    width: 320px;
+    background: #13131c;
+    border-radius: 16px;
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ffffff08;
+    overflow: hidden;
+  }
+
+  .sk-list-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+  }
+
+  .sk-list-item + .sk-list-item {
+    border-top: 1px solid #ffffff06;
+  }
+
+  .sk-list-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sk-list-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
   }
 </style>
 </head>
 <body>
+
   <p class="label">Skeleton Loader</p>
+
+  <!-- Card Skeleton -->
   <div class="skeleton-card">
     <div class="sk-header">
       <div class="sk sk-avatar"></div>
@@ -68,10 +164,51 @@
         <div class="sk sk-sub"></div>
       </div>
     </div>
+
     <div class="sk sk-img"></div>
+
     <div class="sk sk-line-full"></div>
     <div class="sk sk-line-3qtr"></div>
     <div class="sk sk-line-half"></div>
+
+    <div class="sk-divider"></div>
+
+    <div class="sk-tags">
+      <div class="sk sk-tag" style="width: 64px;"></div>
+      <div class="sk sk-tag" style="width: 80px;"></div>
+      <div class="sk sk-tag" style="width: 56px;"></div>
+    </div>
+
+    <div class="sk-actions">
+      <div class="sk sk-btn"></div>
+      <div class="sk sk-btn"></div>
+    </div>
   </div>
+
+  <!-- List Skeleton -->
+  <div class="skeleton-list">
+    <div class="sk-list-item">
+      <div class="sk sk-list-avatar"></div>
+      <div class="sk-list-text">
+        <div class="sk sk-line-full"></div>
+        <div class="sk sk-line-half"></div>
+      </div>
+    </div>
+    <div class="sk-list-item">
+      <div class="sk sk-list-avatar"></div>
+      <div class="sk-list-text">
+        <div class="sk sk-line-full"></div>
+        <div class="sk sk-line-3qtr"></div>
+      </div>
+    </div>
+    <div class="sk-list-item">
+      <div class="sk sk-list-avatar"></div>
+      <div class="sk-list-text">
+        <div class="sk sk-line-full"></div>
+        <div class="sk sk-line-half"></div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
