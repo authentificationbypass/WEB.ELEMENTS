@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flip Timer</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 22px;
+    background: radial-gradient(circle at 50% 20%, #2a2f47, #090b11 65%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #fff;
+    padding: 24px;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.48;
+  }
+
+  .timer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(82px, 120px));
+    gap: clamp(8px, 2.5vw, 16px);
+  }
+
+  .unit {
+    perspective: 700px;
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #111523;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.4);
+  }
+
+  .half {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    color: #e8efff;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+
+  .top {
+    top: 0;
+    background: linear-gradient(180deg, #232a44, #1a2138);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transform-origin: bottom;
+  }
+
+  .bottom {
+    bottom: 0;
+    align-items: flex-start;
+    padding-top: 3px;
+    background: linear-gradient(180deg, #161c2e, #0f1423);
+  }
+
+  .top.flipping {
+    animation: flipTop 0.55s cubic-bezier(.42,0,.25,1) forwards;
+  }
+
+  @keyframes flipTop {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(-92deg); }
+  }
+
+  .unit-label {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Flip Timer</p>
+  <div class="timer">
+    <div class="unit" data-kind="h">
+      <div class="card">
+        <div class="half top">00</div>
+        <div class="half bottom">00</div>
+      </div>
+      <p class="unit-label">Hours</p>
+    </div>
+    <div class="unit" data-kind="m">
+      <div class="card">
+        <div class="half top">00</div>
+        <div class="half bottom">00</div>
+      </div>
+      <p class="unit-label">Minutes</p>
+    </div>
+    <div class="unit" data-kind="s">
+      <div class="card">
+        <div class="half top">00</div>
+        <div class="half bottom">00</div>
+      </div>
+      <p class="unit-label">Seconds</p>
+    </div>
+  </div>
+
+  <script>
+    const units = Array.from(document.querySelectorAll('.unit'));
+
+    function pad(v) {
+      return String(v).padStart(2, '0');
+    }
+
+    function getValues() {
+      const now = new Date();
+      return {
+        h: pad(now.getHours()),
+        m: pad(now.getMinutes()),
+        s: pad(now.getSeconds())
+      };
+    }
+
+    function update(force = false) {
+      const values = getValues();
+
+      units.forEach((unit) => {
+        const kind = unit.dataset.kind;
+        const next = values[kind];
+        const top = unit.querySelector('.top');
+        const bottom = unit.querySelector('.bottom');
+        const current = top.textContent;
+
+        if (!force && current === next) return;
+
+        top.classList.remove('flipping');
+        top.textContent = current;
+        bottom.textContent = next;
+
+        requestAnimationFrame(() => {
+          top.classList.add('flipping');
+        });
+
+        top.addEventListener('animationend', () => {
+          top.classList.remove('flipping');
+          top.textContent = next;
+          bottom.textContent = next;
+        }, { once: true });
+      });
+    }
+
+    const initial = getValues();
+    units.forEach((unit) => {
+      const value = initial[unit.dataset.kind];
+      unit.querySelector('.top').textContent = value;
+      unit.querySelector('.bottom').textContent = value;
+    });
+
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>

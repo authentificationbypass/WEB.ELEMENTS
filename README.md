@@ -1,6 +1,6 @@
 # Web UI Kit
 
-A curated collection of **60 handcrafted web UI elements** 
+A curated collection of **66 handcrafted web UI elements** 
 HTML, CSS & JS snippets, ready to copy into any project.
 
 No frameworks. No build tools. No dependencies. Just open a file and copy what you need.
@@ -16,7 +16,7 @@ No frameworks. No build tools. No dependencies. Just open a file and copy what y
 | [Loaders](./loaders/) | 10 | DNA Helix, Morphing Blob, Orbit Rings, Typing Dots, Wave Bars, Circular Split, Bouncing Squares, Neon Pulse, Liquid Fill, Skeleton |
 | [Inputs](./inputs/) | 10 | Floating Label, Underline Animate, Neon Glow, Expanding Search, Password Strength, Tag Input, Morphing, Glassmorphism, OTP Split, Autocomplete |
 | [Patterns](./patterns/) | 10 | Animated Grid, Dot Matrix, Hexagon Grid, Wave Lines, Noise Texture, Circuit Board, Chevron, Isometric Grid, Gradient Mesh, Aurora |
-| [Animations](./animations/) | 10 | Text Reveal, Stagger List, Morphing Shape, Counter, Magnetic Cursor, Accordion, Floating, Glitch Text, Confetti, Scroll Progress |
+| [Animations](./animations/) | 16 | Text Reveal, Stagger List, Morphing Shape, Counter, Magnetic Cursor, Accordion, Floating, Glitch Text, Confetti, Scroll Progress, Particle Wave, Letter Scramble, Spotlight Mask, Flip Timer, SVG Signature, Spring Chain |
 
 ---
 
@@ -115,6 +115,12 @@ No frameworks. No build tools. No dependencies. Just open a file and copy what y
 | [glitch-text.html](./animations/glitch-text.html) | RGB-split channel glitch effect |
 | [confetti.html](./animations/confetti.html) | Canvas confetti burst with physics |
 | [scroll-progress.html](./animations/scroll-progress.html) | Fixed top bar tracking scroll position |
+| [particle-wave.html](./animations/particle-wave.html) | Interactive ripple wave of particles |
+| [letter-scramble.html](./animations/letter-scramble.html) | Headlines decode from random glyphs |
+| [spotlight-mask.html](./animations/spotlight-mask.html) | Cursor spotlight reveals gradient text |
+| [flip-timer.html](./animations/flip-timer.html) | Split-flap style live clock animation |
+| [svg-signature.html](./animations/svg-signature.html) | Handwritten signature traces itself |
+| [spring-chain.html](./animations/spring-chain.html) | Elastic chain follows pointer momentum |
 
 ---
 

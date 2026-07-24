@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Particle Wave Field</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 20% 20%, #1b2a4a, #0a0d16 60%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    color: #dbe8ff;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    text-align: center;
+  }
+
+  .frame {
+    width: min(92vw, 760px);
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+  }
+
+  canvas { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+  <p class="label">Particle Wave Field</p>
+  <div class="frame">
+    <canvas id="wave"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('wave');
+    const ctx = canvas.getContext('2d');
+
+    const pointer = { x: -9999, y: -9999 };
+    const grid = [];
+    let cols = 0;
+    let rows = 0;
+    let spacing = 24;
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      spacing = rect.width < 500 ? 20 : 24;
+      cols = Math.floor(rect.width / spacing);
+      rows = Math.floor(rect.height / spacing);
+      grid.length = 0;
+
+      for (let y = 0; y <= rows; y++) {
+        for (let x = 0; x <= cols; x++) {
+          grid.push({
+            x: x * spacing + (rect.width - cols * spacing) * 0.5,
+            y: y * spacing + (rect.height - rows * spacing) * 0.5,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+    }
+
+    window.addEventListener('resize', resize);
+
+    canvas.addEventListener('pointermove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('pointerleave', () => {
+      pointer.x = -9999;
+      pointer.y = -9999;
+    });
+
+    let t = 0;
+    function draw() {
+      t += 0.015;
+      const { width, height } = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, width, height);
+
+      for (const p of grid) {
+        const dx = pointer.x - p.x;
+        const dy = pointer.y - p.y;
+        const dist = Math.hypot(dx, dy);
+        const wave = Math.sin(t * 2 + p.phase + p.x * 0.015 + p.y * 0.01) * 4;
+        const influence = Math.max(0, 1 - dist / 180);
+        const lift = wave + influence * 12;
+
+        const r = 1.4 + influence * 2.2;
+        const glow = Math.floor(120 + influence * 120);
+        ctx.fillStyle = `rgba(${110 + glow}, ${170 + glow * 0.5}, 255, ${0.18 + influence * 0.75})`;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y - lift, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+  </script>
+</body>
+</html>

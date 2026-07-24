@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Signature Trace</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(130deg, #101622, #0b0f18 65%),
+      radial-gradient(circle at 20% 30%, rgba(82, 156, 255, 0.2), transparent 40%);
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+    color: #e9f2ff;
+    padding: 24px;
+  }
+
+  .wrap {
+    width: min(94vw, 980px);
+    display: grid;
+    gap: 16px;
+    justify-items: center;
+  }
+
+  .label {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(125, 188, 255, 0.3));
+  }
+
+  .line {
+    fill: none;
+    stroke: #a9d4ff;
+    stroke-width: 5.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+    animation: draw 4.8s ease-in-out infinite;
+  }
+
+  .line.shadow {
+    stroke: rgba(169, 212, 255, 0.18);
+    stroke-width: 10;
+    filter: blur(2.4px);
+    animation-delay: 0.08s;
+  }
+
+  @keyframes draw {
+    0% { stroke-dashoffset: var(--len); opacity: 0.2; }
+    20%, 68% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: calc(var(--len) * -0.15); opacity: 0.15; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="label">SVG Signature Trace</p>
+    <svg viewBox="0 0 900 280" role="img" aria-label="Animated signature stroke">
+      <path class="line shadow" id="sig-shadow" d="M70 202 C110 82, 178 78, 198 170 C213 238, 265 237, 286 156 C307 75, 340 101, 354 180 C370 270, 430 255, 446 167 C462 84, 505 84, 531 184 C551 262, 616 256, 628 179 C642 96, 676 87, 704 168 C726 230, 782 236, 832 170" />
+      <path class="line" id="sig-main" d="M70 202 C110 82, 178 78, 198 170 C213 238, 265 237, 286 156 C307 75, 340 101, 354 180 C370 270, 430 255, 446 167 C462 84, 505 84, 531 184 C551 262, 616 256, 628 179 C642 96, 676 87, 704 168 C726 230, 782 236, 832 170" />
+    </svg>
+  </div>
+
+  <script>
+    const paths = document.querySelectorAll('.line');
+    paths.forEach((path) => {
+      const len = path.getTotalLength();
+      path.style.setProperty('--len', len.toFixed(2));
+    });
+  </script>
+</body>
+</html>

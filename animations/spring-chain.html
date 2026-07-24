@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Chain</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255, 196, 120, 0.22), transparent 40%),
+      radial-gradient(circle at 85% 78%, rgba(104, 177, 255, 0.22), transparent 38%),
+      #090d15;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  .label {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.52);
+    pointer-events: none;
+  }
+
+  canvas {
+    width: min(94vw, 900px);
+    height: min(78vh, 560px);
+    border-radius: 22px;
+    background: linear-gradient(170deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+  }
+</style>
+</head>
+<body>
+  <p class="label">Spring Chain</p>
+  <canvas id="chain"></canvas>
+
+  <script>
+    const canvas = document.getElementById('chain');
+    const ctx = canvas.getContext('2d');
+
+    const pointer = { x: 0, y: 0 };
+    let pointerActive = false;
+    const nodes = [];
+    const nodeCount = 26;
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      pointer.x = rect.width * 0.5;
+      pointer.y = rect.height * 0.5;
+
+      nodes.length = 0;
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({ x: pointer.x, y: pointer.y, vx: 0, vy: 0 });
+      }
+    }
+
+    window.addEventListener('resize', resize);
+
+    canvas.addEventListener('pointermove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+      pointerActive = true;
+    });
+
+    canvas.addEventListener('pointerleave', () => {
+      pointerActive = false;
+    });
+
+    let t = 0;
+    function animate() {
+      t += 0.016;
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+
+      // Add autonomous motion when idle.
+      const autoX = w * 0.5 + Math.cos(t * 0.9) * (w * 0.22);
+      const autoY = h * 0.5 + Math.sin(t * 1.2) * (h * 0.2);
+
+      const anchorX = pointerActive ? pointer.x : autoX;
+      const anchorY = pointerActive ? pointer.y : autoY;
+
+      ctx.clearRect(0, 0, w, h);
+
+      let tx = anchorX;
+      let ty = anchorY;
+      nodes.forEach((n, i) => {
+        const stiffness = 0.16 - i * 0.0038;
+        const damping = 0.76;
+
+        n.vx += (tx - n.x) * stiffness;
+        n.vy += (ty - n.y) * stiffness;
+        n.vx *= damping;
+        n.vy *= damping;
+        n.x += n.vx;
+        n.y += n.vy;
+
+        tx = n.x;
+        ty = n.y;
+      });
+
+      ctx.lineWidth = 2.3;
+      for (let i = 0; i < nodes.length - 1; i++) {
+        const a = nodes[i];
+        const b = nodes[i + 1];
+        const alpha = 0.9 - i / nodes.length;
+        ctx.strokeStyle = `rgba(${255 - i * 5}, ${194 - i * 2}, ${130 + i * 4}, ${alpha})`;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+
+      nodes.forEach((n, i) => {
+        const r = Math.max(2.2, 5 - i * 0.11);
+        ctx.fillStyle = `rgba(255, ${220 - i * 3}, ${180 + i * 2}, ${0.95 - i / (nodes.length * 1.2)})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    resize();
+    animate();
+  </script>
+</body>
+</html>

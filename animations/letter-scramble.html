@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letter Scramble Reveal</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(43, 102, 255, 0.25), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(0, 255, 188, 0.2), transparent 40%),
+      #070b12;
+    font-family: 'Consolas', 'SFMono-Regular', Menlo, monospace;
+    color: #d5e4ff;
+    gap: 22px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  .scramble {
+    font-size: clamp(1.3rem, 4.6vw, 3.2rem);
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    text-shadow: 0 0 22px rgba(92, 162, 255, 0.35);
+    max-width: 900px;
+    line-height: 1.2;
+    min-height: 2.5em;
+  }
+
+  .hint {
+    font-size: 12px;
+    opacity: 0.5;
+    letter-spacing: 1.5px;
+  }
+</style>
+</head>
+<body>
+  <p class="label">Letter Scramble Reveal</p>
+  <h1 class="scramble" id="scramble"></h1>
+  <p class="hint">Move your cursor or tap to reshuffle</p>
+
+  <script>
+    const output = document.getElementById('scramble');
+    const phrases = [
+      'Build interfaces that feel alive.',
+      'Small motion creates strong emotion.',
+      'Interaction is a design language.',
+      'Craft details users can feel.'
+    ];
+
+    const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>?/|{}[]!@#$%&*';
+    let phraseIndex = 0;
+    let frame = 0;
+    let target = phrases[0];
+    let rafId;
+    let nextAllowedAt = 0;
+
+    function scramble() {
+      frame += 0.45;
+      const reveal = Math.floor(frame);
+
+      output.textContent = target
+        .split('')
+        .map((char, i) => {
+          if (char === ' ') return ' ';
+          if (i < reveal) return char;
+          return glyphs[Math.floor(Math.random() * glyphs.length)];
+        })
+        .join('');
+
+      if (reveal < target.length) {
+        rafId = requestAnimationFrame(scramble);
+      } else {
+        cancelAnimationFrame(rafId);
+      }
+    }
+
+    function nextPhrase() {
+      const now = Date.now();
+      if (now < nextAllowedAt) return;
+
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      target = phrases[phraseIndex];
+      frame = 0;
+      nextAllowedAt = now + 700;
+      scramble();
+    }
+
+    window.addEventListener('pointermove', () => {
+      if (frame < target.length) return;
+      nextPhrase();
+    }, { passive: true });
+
+    window.addEventListener('pointerdown', nextPhrase);
+    setInterval(() => {
+      if (frame >= target.length) nextPhrase();
+    }, 2600);
+
+    scramble();
+  </script>
+</body>
+</html>
