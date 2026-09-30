@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beam Lattice Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background: radial-gradient(circle at 80% 15%, #1d1028, #09070f 60%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  .beam-loader {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    display: grid;
+    place-items: center;
+  }
+
+  .beam {
+    position: absolute;
+    width: 76px;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #f0abfc 50%, transparent);
+    filter: drop-shadow(0 0 8px rgba(240, 171, 252, 0.5));
+    animation: beam-pulse 1.5s ease-in-out infinite;
+  }
+
+  .beam:nth-child(1) { transform: rotate(0deg); animation-delay: 0s; }
+  .beam:nth-child(2) { transform: rotate(45deg); animation-delay: 0.12s; }
+  .beam:nth-child(3) { transform: rotate(90deg); animation-delay: 0.24s; }
+  .beam:nth-child(4) { transform: rotate(135deg); animation-delay: 0.36s; }
+
+  .core {
+    width: 16px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 14px #fff, 0 0 28px #f0abfc;
+    animation: core-breathe 1.5s ease-in-out infinite;
+  }
+
+  @keyframes beam-pulse {
+    0%, 100% { opacity: 0.2; transform: scaleX(0.7) rotate(var(--rot, 0deg)); }
+    50% { opacity: 1; transform: scaleX(1) rotate(var(--rot, 0deg)); }
+  }
+
+  @keyframes core-breathe {
+    0%, 100% { transform: scale(0.8); opacity: 0.7; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .beam:nth-child(1) { --rot: 0deg; }
+  .beam:nth-child(2) { --rot: 45deg; }
+  .beam:nth-child(3) { --rot: 90deg; }
+  .beam:nth-child(4) { --rot: 135deg; }
+</style>
+</head>
+<body>
+  <p class="label">Beam Lattice Loader</p>
+  <div class="beam-loader">
+    <div class="beam"></div>
+    <div class="beam"></div>
+    <div class="beam"></div>
+    <div class="beam"></div>
+    <div class="core"></div>
+  </div>
+</body>
+</html>

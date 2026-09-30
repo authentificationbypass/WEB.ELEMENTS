@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conic Sweep Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background: radial-gradient(circle at 20% 20%, #121226, #08080f 60%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  .conic-loader {
+    width: 84px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 90deg, #00f5d4, #00bbf9, #9b5de5, #f15bb5, #00f5d4);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 0);
+    animation: conic-spin 1.1s linear infinite;
+    filter: drop-shadow(0 0 12px rgba(0, 245, 212, 0.35));
+    position: relative;
+  }
+
+  .conic-loader::after {
+    content: '';
+    position: absolute;
+    inset: 22px;
+    border-radius: 50%;
+    background: #0a0a12;
+    box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.08);
+  }
+
+  @keyframes conic-spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Conic Sweep Loader</p>
+  <div class="conic-loader"></div>
+</body>
+</html>
