@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gear Spin Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background: linear-gradient(160deg, #0b0b12, #121421 45%, #0a0a10);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .label { color: #fff; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.3; }
+
+  .gear-loader {
+    position: relative;
+    width: 120px;
+    height: 90px;
+  }
+
+  .gear {
+    position: absolute;
+    border-radius: 50%;
+    background:
+      repeating-conic-gradient(from 0deg, #8ec5ff 0deg 10deg, #4f7ef7 10deg 20deg);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #000 0);
+    box-shadow: 0 0 14px rgba(120, 149, 255, 0.35);
+  }
+
+  .gear::after {
+    content: '';
+    position: absolute;
+    inset: 35%;
+    border-radius: 50%;
+    background: #0c0e18;
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.15);
+  }
+
+  .gear.one {
+    width: 58px;
+    height: 58px;
+    left: 14px;
+    top: 18px;
+    animation: gear-cw 1.3s linear infinite;
+  }
+
+  .gear.two {
+    width: 74px;
+    height: 74px;
+    right: 8px;
+    top: 8px;
+    animation: gear-ccw 1.8s linear infinite;
+  }
+
+  @keyframes gear-cw {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes gear-ccw {
+    to { transform: rotate(-360deg); }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Gear Spin Loader</p>
+  <div class="gear-loader">
+    <div class="gear one"></div>
+    <div class="gear two"></div>
+  </div>
+</body>
+</html>

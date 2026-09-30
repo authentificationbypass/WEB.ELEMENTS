@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar Scan Loader</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background: radial-gradient(circle at center, #0c1a1a 0%, #030808 65%);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .label { color: #d1fff5; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.35; }
+
+  .radar-loader {
+    width: 110px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 255, 170, 0.28);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 170, 0.16), inset 0 0 16px rgba(0, 255, 170, 0.12);
+  }
+
+  .radar-loader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-radial-gradient(circle, transparent 0 13px, rgba(0, 255, 170, 0.15) 13px 14px);
+  }
+
+  .radar-loader::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(0, 255, 170, 0.65), transparent 36%, transparent 100%);
+    animation: radar-sweep 1.6s linear infinite;
+    transform-origin: center;
+  }
+
+  .blip {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #8affe6;
+    box-shadow: 0 0 9px #8affe6;
+    animation: blip-pulse 1.6s infinite;
+  }
+
+  .b1 { top: 24%; left: 62%; animation-delay: 0.1s; }
+  .b2 { top: 58%; left: 28%; animation-delay: 0.5s; }
+  .b3 { top: 70%; left: 68%; animation-delay: 0.9s; }
+
+  @keyframes radar-sweep {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes blip-pulse {
+    0%, 65% { opacity: 0.2; transform: scale(0.7); }
+    75%, 85% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.2; transform: scale(0.7); }
+  }
+</style>
+</head>
+<body>
+  <p class="label">Radar Scan Loader</p>
+  <div class="radar-loader">
+    <span class="blip b1"></span>
+    <span class="blip b2"></span>
+    <span class="blip b3"></span>
+  </div>
+</body>
+</html>

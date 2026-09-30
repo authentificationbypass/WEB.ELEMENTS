@@ -1,6 +1,6 @@
 # Loaders
 
-10 loading animations — pure HTML & CSS (with minimal JS where needed).
+15 loading animations — pure HTML & CSS (with minimal JS where needed).
 
 | File | Effect | Technique |
 |------|--------|-----------|
@@ -14,3 +14,8 @@
 | [neon-pulse.html](./neon-pulse.html) | Expanding neon ring | CSS `box-shadow` + `scale` |
 | [liquid-fill.html](./liquid-fill.html) | Liquid fills a circle | SVG wave + `translateY` |
 | [skeleton.html](./skeleton.html) | Shimmer placeholder | CSS gradient animation |
+| [conic-sweep.html](./conic-sweep.html) | Rotating conic sweep ring | CSS `conic-gradient` + masking |
+| [cube-fold.html](./cube-fold.html) | Folding cube quadrants | CSS `rotateX`/`rotateY` transforms |
+| [radar-scan.html](./radar-scan.html) | Radar sweep with ping dots | CSS pseudo-elements + radial effects |
+| [gear-spin.html](./gear-spin.html) | Counter-rotating gear discs | CSS `repeating-conic-gradient` |
+| [beam-lattice.html](./beam-lattice.html) | Crossed beams pulsing in sequence | CSS transforms + staggered keyframes |
