@@ -1,6 +1,6 @@
 # Web UI Kit
 
-A curated collection of **66 handcrafted web UI elements** 
+A curated collection of **71 handcrafted web UI elements** 
 HTML, CSS & JS snippets, ready to copy into any project.
 
 No frameworks. No build tools. No dependencies. Just open a file and copy what you need.
@@ -73,6 +73,11 @@ No frameworks. No build tools. No dependencies. Just open a file and copy what y
 | [neon-pulse.html](./loaders/neon-pulse.html) | Expanding neon ring pulse |
 | [liquid-fill.html](./loaders/liquid-fill.html) | SVG wave animation fills a circle |
 | [skeleton.html](./loaders/skeleton.html) | Shimmer skeleton screen placeholder |
+| [conic-sweep.html](./loaders/conic-sweep.html) | Rotating conic sweep ring |
+| [cube-fold.html](./loaders/cube-fold.html) | Folding cube quadrants |
+| [radar-scan.html](./loaders/radar-scan.html) | Radar sweep with ping dots |
+| [gear-spin.html](./loaders/gear-spin.html) | Counter-rotating gear discs |
+| [beam-lattice.html](./loaders/beam-lattice.html) | Crossed beams pulsing in sequence |
 
 ### [Inputs](./inputs/)
 | File | Description |
