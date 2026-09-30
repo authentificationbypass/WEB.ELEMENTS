@@ -13,7 +13,7 @@ No frameworks. No build tools. No dependencies. Just open a file and copy what y
 |----------|-------|---------------|
 | [Buttons](./buttons/) | 10 | Neon Glow, Magnetic, Liquid Fill, Split Text, Gradient Morph, Ripple Burst, 3D Flip, Typewriter, Particle Explosion, Elastic Border |
 | [Cards](./cards/) | 10 | Glassmorphism, 3D Tilt, Flip, Expanding, Neon Border, Parallax, Gradient Reveal, Stack, Holographic, Morphing |
-| [Loaders](./loaders/) | 10 | DNA Helix, Morphing Blob, Orbit Rings, Typing Dots, Wave Bars, Circular Split, Bouncing Squares, Neon Pulse, Liquid Fill, Skeleton |
+| [Loaders](./loaders/) | 15 | DNA Helix, Morphing Blob, Orbit Rings, Typing Dots, Wave Bars, Circular Split, Bouncing Squares, Neon Pulse, Liquid Fill, Skeleton |
 | [Inputs](./inputs/) | 10 | Floating Label, Underline Animate, Neon Glow, Expanding Search, Password Strength, Tag Input, Morphing, Glassmorphism, OTP Split, Autocomplete |
 | [Patterns](./patterns/) | 10 | Animated Grid, Dot Matrix, Hexagon Grid, Wave Lines, Noise Texture, Circuit Board, Chevron, Isometric Grid, Gradient Mesh, Aurora |
 | [Animations](./animations/) | 16 | Text Reveal, Stagger List, Morphing Shape, Counter, Magnetic Cursor, Accordion, Floating, Glitch Text, Confetti, Scroll Progress, Particle Wave, Letter Scramble, Spotlight Mask, Flip Timer, SVG Signature, Spring Chain |
